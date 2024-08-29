@@ -1,0 +1,499 @@
+ 3 Architecture layer:
+1. Presentation Layer: View is presentation layer of Application in MVC architecture. It takes care of the placement and formatting of the result.
+2. Application Layer:
+3. Data Layer: stores ad retrieving information from databases. eg model is the data layer of the application.
+
+Architecture of other webframeworks - MVC(model,view,controller)[view is presentation layer, model is data layer, controller interacts with model and views]
+of Django - MVT(model,view,template)
+A Django application consists of the following components: 
+1) URL dispatcher 
+2)View - application layer. 
+>>> The View function is invoked by the URL dispatcher. Django uses the URLConf to identify the view that matches with the pattern of the client URL.
+>>> It reads the parameters from the request object and performs CRUD operations on the model.
+>>> The View function populates the template with context data. It uses the request parameters and/or the data fetched from the model to be inserted in the template.
+>>> It reads the template and returns it to the client as the response. Template is an HTML document or Django template language.
+>>>The view coordinates with the model to perform database operations.
+>>>A view interacts with both the model and template. It also defines processing logic. Therefore, it is like the application tier in MVT architecture.
+>>> The view performs the CRUD operations on the models.
+
+3)Model - data layer. 
+>>>It reflects the database structure. The migration process uses the attributes of a model class to create a table in the database.
+>>>It represents the data layer of the application. The model defines attributes and the relationships of data to be processed by the application.
+>>> It interacts with the view layer.
+
+4)Template - presentation layer
+>>> The variable content in the HTML script is marked by blocks of Django Template Language statements.
+>>> A template is an HTML script and is saved with the .html extension.
+
+django-admin is a command-line utility and manage.py is a Python script. manage.py should be run as a Python module. The django-admin is an executable file that is run in the terminal.
+django-admin is installed in the Python environment when you install Django with PIP utility. The manage.py file is created inside each Django project folder. You will find manage.py in the project folder and django-admin in Python’s scripts folder. 
+
+-> Each view function takes an HTTP request object as its first parameter named request. It's important to know that creating a view function is not enough to make the request response work. The view function needs to be mapped to a URL so when the request to the URL is made, the view function gets called. 
+This process of mapping a URL to a view function is known as routing.
+
+datetime
+https://www.w3schools.com/python/python_datetime.asp
+
+"Django-admin is Django's command line utility for administrative tasks."
+Command to start project:
+django-admin startproject mysite
+
+
+manage.py commands:-
+-- to create app of name "demoapp"
+python manage.py startapp demoapp
+--to run server
+python manage.py runserver
+python3 manage.py runserver
+
+
+from . import views 
+The dot (.) implies the current working directory and will successfully import the file views.py as it is in the same directory.   
+from myapp import views 
+The code from myapp import views implies importing the contents of the views.py file into the current urls.py file.      
+
+
+Q) What are the types of parameters that a view receives in a client request? Select all that apply.
+
+Body parameters: The data items sent by the client with POST method are the body parameters of the request. The request.POST attribute contains this data.
+
+
+Path parameters : If the client URL endpoint contains one or more parameters separated by the / symbol, the path converter in path() function’s URL pattern string parses the parameters in appropriate variables. Then, it passes them to the view function.
+
+
+Query parameters:  The URL may have a query string appended to the endpoint. The parameters are available to the view in request.GET attribute.
+
+
+
+python manage.py shell 
+>>> import django
+>>> django.VERSION
+(4, 2, 6, 'final', 0)
+>>> print(django.get_version())
+4.2.6
+
+
+
+Exception classes
+Django’s exception classes are defined in the django.core.exceptions module. 
+
+Some important exception types are:
+
+ObjectDoesNotExist: All the exceptions of the DoesNotExist are inherited from this base exception.
+
+EmptyResultSet: This exception is raised if a query does not return any result.
+
+FieldDoesNotExist: This exception is raised when the requested field does not exist.
+
+'''
+try: 
+    field = model._meta.get_field(field_name) 
+except FieldDoesNotExist: 
+    return HttpResponse("Field Does not exist") 
+'''
+MultipleObjectsReturned: When you expect a certain query to return only a single object, however multiple objects are returned. This is when you need to raise this exception.
+
+PermissionDenied: This exception is raised when a user does not have permission to perform the action requested.
+
+'''
+def myview(request): 
+    if not request.user.has_perm('myapp.view_mymodel'): 
+        raise PermissionDenied() 
+    return HttpResponse() 
+'''
+ViewDoesNotExist: This exception is raised by django.urls when a requested view does not exist, possibly because of incorrect mapping defined in the URLconf. 
+
+When a certain view is called with a POST or PUT request, the request body is populated by the form data. 
+
+Django’s Form API defines various fields specific to the type of data stored. For example, you have EmailField, FileField, IntegerField, MultipleChoiceField. 
+
+These fields have built-in validators. The is_valid() method returns True if the validations are passed. You can raise an exception if it returns False.
+
+'''
+def myview(request):   
+    if request.method == "POST":   
+        form = MyForm(request.POST)   
+        if form.is_valid():   
+            #process the form data 
+        else:   
+                return HttpResponse("Form submitted with invalid data") 
+'''
+In addition to the exceptions defined in the core module, you can process the standard Python exceptions and the database-related exceptions.
+
+Class based views: With class-based views, you can respond to HTTP requests with different class instance methods. This can be used in place of writing conditional branches like if-else statements inside the same function.  
+When is the PermissionDenied() exception raised? - It is raised when the user doesn’t have the required permission on the model under process.
+Can you override the default error views defined in the django.views.default module?  -  You can override them by specifying the appropriate handler in the project’s URLConf.
+CRUD operations on webpage - GET, POST, PUT, DELETE
+
+
+1.
+Question 1
+To add a URL pattern with regex, you use the re_path() function instead of the path() function.
+
+1 / 1 point
+
+True
+
+
+False
+
+Correct
+Correct! If the path converter needs a complex matching pattern, you should use the re_path() function. Here, “re” stands for regex.
+
+2.
+Question 2
+Which of the following sentences about the path() function is correct? Select all that apply. 
+
+1 / 1 point
+
+The path() function is defined in the django.urls module. 
+
+Correct
+Correct! The path and include functions, used to build the URL patterns list, are defined in the django.urls module. 
+
+
+The path() function is used to define a URL pattern. 
+
+Correct
+Correct! It adds a URL mapped to a view to the urlpatterns list. 
+
+
+The URL string parameter of the path() function captures query parameters from the URL.
+
+
+The path() function returns the path of the Django app. 
+
+3.
+Question 3
+Complete the sentence. The path converters capture _____ from the URL.
+
+1 / 1 point
+
+Path parameters
+
+
+Body parameters. 
+
+
+Query parameters
+
+
+URL parameters
+
+Correct
+Correct! The converters of the format <type:variable> mentioned in the URL string argument to the path() function hold the parameters included in the URL. 
+
+4.
+Question 4
+The request.user attribute contains the information of the current user.
+
+1 / 1 point
+
+True
+
+
+False
+
+Correct
+Correct! The view function can access the information about the current user – such as the username and whether it is authenticated - with the request.user attribute.
+
+5.
+Question 5
+Complete the following sentence. The HTTP status code starting with 5 implies that:
+
+1 / 1 point
+
+The action has been successfully completed.
+
+
+There is a client-side error.
+
+
+The request has been received and is under process.
+
+
+The server has encountered an error.
+
+Correct
+Correct! For a server-side error, the status code starts with 5.
+
+6.
+Question 6
+What are the important features of a class-based view? Select all that apply.
+
+1 / 1 point
+
+Class-based views are reusable.
+
+Correct
+Correct! Python’s principle of multiple inheritances makes Django’s class-based views reusable.
+
+
+The as_view() method maps a URL to a class-based view.
+
+Correct
+Correct! This method connects a view class with a URL string pattern.
+
+
+A class-based view subclasses the django.view.View base class.
+
+Correct
+Correct! All view classes inherit the django.view.View class.
+
+
+A class-based view implements different methods for each HTTP method.
+
+Correct
+Correct! The user-defined view class overrides the get() and post() methods to define processing logic for corresponding request methods.
+
+7.
+Question 7
+The Http404 response is a convenient alternative for an HttpResponse.
+
+1 / 1 point
+
+True.
+
+
+False
+
+Correct
+Correct! It is a subclass of HttpResponse.  It is considered good practice to have a consistent 404 error page in the application.
+
+8.
+Question 8
+Complete the following sentence. The URL name is _______________.
+
+Select all that apply.
+
+1 / 1 point
+
+passed as the name parameter in the path() function.
+
+Correct
+Correct! The path()  has an optional name parameter in addition to the URL pattern string and the view function.
+
+
+an optional parameter passed inside the path() function.
+
+Correct
+Correct! It is an optional parameter passed to the path() function.
+
+
+used by the reverse() function to fetch the URL mapped with the view function.
+
+Correct
+Correct! The reverse() function is defined in the django.urls module obtains the URL mapped with the view function.
+
+
+used to define URL namespace.
+
+Correct
+Correct! You can obtain the URL with syntax like reverse(namespace:view).
+
+9.
+Question 9
+Can you define views in the views.py file in the projects folder?
+
+1 / 1 point
+
+ Yes
+
+
+No
+
+Correct
+Correct! You can define views in the views.py file in the projects folder. This is used when you want to override the default error views.
+
+10.
+Question 10
+Complete the following sentence. To override the default error view, _______________.
+
+Select all that apply.
+
+1 / 1 point
+
+there's no need to override the default error views.
+
+
+you should define the custom error handler view in the app's views.py file.
+
+
+define the custom view in the project folder.
+
+Correct
+Correct! The handler refers to the view function defined in the view.py file under the project folder.
+
+
+specify the appropriate handler in the project's URLConf.
+
+Correct
+Correct! There are predefined handlers for customizing error views, such as Handler404 for page_not_found().
+
+python manage.py shell
+Python 3.11.5 (tags/v3.11.5:cce6ba9, Aug 24 2023, 14:38:34) [MSC v.1936 
+64 bit (AMD64)] on win32
+Type "help", "copyright", "credits" or "license" for more information.  
+(InteractiveConsole)
+>>> from demoapp.models import Menu
+>>> Menu.objects.all()
+<QuerySet []>
+>>> m = Menu.objects.create(name='pasta',cuisine='italian',price=540)
+>>> Menu.objects.all()                                                
+<QuerySet [<Menu: Menu object (1)>]>
+>>> n = Menu.objects.create(name='taco',cuisine='mexican',price=780)
+>>> Menu.objects.all()                                                
+<QuerySet [<Menu: Menu object (1)>, <Menu: Menu object (2)>]>
+
+
+//To update databases
+>>> from demoapp.models import Menu
+>>> p = Menu.objects.get(pk=2)
+>>> p.cuisine = 'chinese'
+>>> p.save()
+>>> Menu.objects.all()
+<QuerySet [<Menu: Menu object (1)>, <Menu: Menu object (2)>]>
+>>>
+
+The migration script is a set of instructions on what models to create against the database.To work with migrations, you create a migration script and then apply the migrations. Django provides a list of CLI commands that allows you to apply the migrations.
+Django’s migration system has the following commands:
+1>makemigrations
+2>migrate
+3>sqlmigrate
+4>showmigrations
+
+eg)python manage.py makemigrations
+Was menu.name renamed to menu.person_name (a CharField)? [y/N] y
+Migrations for 'demoapp':
+  demoapp\migrations\0002_rename_name_menu_person_name.py
+    - Rename field name on menu to person_name
+PS D:\Websites\CourseraDjango\demoproject> python manage.py makemigrations
+It is impossible to add a non-nullable field 'age' to menu without specifying a default. This is because the database needs something to populate existing rows.   
+Please select a fix:
+ 1) Provide a one-off default now (will be set on all existing rows with a null value for this column)
+ 2) Quit and manually define a default value in models.py.
+Select an option: 2
+PS D:\Websites\CourseraDjango\demoproject> python manage.py makemigrations
+It is impossible to add a non-nullable field 'age' to menu without specifying a default. This is because the database needs something to populate existing rows.   
+Please select a fix:
+ 1) Provide a one-off default now (will be set on all existing rows with a null value for this column)
+ 2) Quit and manually define a default value in models.py.
+Select an option: 1
+Please enter the default value as valid Python.
+The datetime and django.utils.timezone modules are available, so it is possible to provide e.g. timezone.now as a value.
+Type 'exit' to exit this prompt
+>>> 45
+Migrations for 'demoapp':
+  demoapp\migrations\0003_menu_age.py
+    - Add field age to menu
+PS D:\Websites\CourseraDjango\demoproject> python manage.py showmigrations
+admin
+ [X] 0001_initial
+ [X] 0002_logentry_remove_auto_add        
+ [X] 0003_logentry_add_action_flag_choices
+auth
+ [X] 0001_initial
+ [X] 0002_alter_permission_name_max_length
+ [X] 0003_alter_user_email_max_length     
+ [X] 0004_alter_user_username_opts        
+ [X] 0005_alter_user_last_login_null      
+ [X] 0006_require_contenttypes_0002       
+ [X] 0007_alter_validators_add_error_messages
+ [X] 0008_alter_user_username_max_length
+ [X] 0009_alter_user_last_name_max_length
+ [X] 0010_alter_group_name_max_length
+ [X] 0011_update_proxy_permissions
+ [X] 0012_alter_user_first_name_max_length
+contenttypes
+ [X] 0001_initial
+ [X] 0002_remove_content_type_name
+demoapp
+ [X] 0001_initial
+ [ ] 0002_rename_name_menu_person_name
+ [ ] 0003_menu_age
+newapp
+ (no migrations)
+sessions
+ [X] 0001_initial
+
+ /*The initial migration (file numbered 0001) has already migrated. The X mark is indicative of this. However, the next two migrations don’t show the X mark, which means they are pending. If we run the migrate command, both modifications will be reflected in the table structure.*/
+
+>python manage.py migrate
+Operations to perform:
+  Apply all migrations: admin, auth, contenttypes, demoapp, sessions
+Running migrations:
+  Applying demoapp.0002_rename_name_menu_person_name... OK
+  Applying demoapp.0003_menu_age... OK
+
+
+/*As mentioned earlier, Django’s migration mechanism provides efficient version control. 
+You may want to fall back upon the table structure before adding the age field. Run the migrate command and specify which migration file to be used so that the migrations after it will be undone or unapplied.*/
+
+>python manage.py migrate demoapp 0002_rename_name_menu_person_name
+Operations to perform:
+  Target specific migration: 0002_rename_name_menu_person_name, from demoapp
+Running migrations:
+  Rendering model states... DONE
+  Unapplying demoapp.0003_menu_age... OK
+
+>python manage.py showmigrations                                      
+admin
+ [X] 0001_initial
+ [X] 0002_logentry_remove_auto_add        
+ [X] 0003_logentry_add_action_flag_choices
+auth
+ [X] 0001_initial
+ [X] 0002_alter_permission_name_max_length
+ [X] 0003_alter_user_email_max_length     
+ [X] 0004_alter_user_username_opts        
+ [X] 0005_alter_user_last_login_null      
+ [X] 0006_require_contenttypes_0002
+ [X] 0007_alter_validators_add_error_messages
+ [X] 0008_alter_user_username_max_length
+ [X] 0009_alter_user_last_name_max_length
+ [X] 0010_alter_group_name_max_length
+ [X] 0011_update_proxy_permissions
+ [X] 0012_alter_user_first_name_max_length
+contenttypes
+ [X] 0001_initial
+ [X] 0002_remove_content_type_name
+demoapp
+ [X] 0001_initial
+ [X] 0002_rename_name_menu_person_name
+ [ ] 0003_menu_age
+newapp
+ (no migrations)
+sessions
+ [X] 0001_initial
+
+ /*sqlmigrate Command
+Lastly, the sqlmigratecommand shows the SQL query or queries executed when a certain migration script is run. For example, the first migration over the myapp’s person model is intended to create the person table.
+ The sqlmigratecommand for this script shows the CREATE TABLE statement for this purpose.*/
+ >python manage.py sqlmigrate demoapp 0001_initial
+BEGIN;
+--
+-- Create model Menu
+--
+CREATE TABLE "demoapp_menu" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "name" varchar(50) NOT NULL, "cuisine" varchar(50) NOT NULL, "price" integer NOT NULL);
+COMMIT;
+
+>python manage.py sqlmigrate demoapp 0003_menu_age
+BEGIN;
+--
+-- Add field age to menu
+--
+CREATE TABLE "new__demoapp_menu" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "age" integer NOT NULL, "cuisine" varchar(50) NOT NULL, "price" integer NOT NULL, "person_name" varchar(50) NOT NULL);
+INSERT INTO "new__demoapp_menu" ("id", "cuisine", "price", "person_name", "age") SELECT "id", "cuisine", "price", "person_name", 45 FROM "demoapp_menu";
+DROP TABLE "demoapp_menu";
+ALTER TABLE "new__demoapp_menu" RENAME TO "demoapp_menu";
+COMMIT;
+
+>python manage.py migrate demoapp 0001 --plan
+>python manage.py migrate myapp 0001 --plan
+Planned operations:
+myapp.0002_rename_drink_drinks_drink_name
+    Undo Rename field drink on drinks to drink_name
+
+//to apply migrations to specific app only
+>python manage.py makemigrations <appname>
+
